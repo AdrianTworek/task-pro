@@ -1,9 +1,9 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+
 import { RootProvider } from '../providers/root-provider';
 import Navbar from '../layouts/navbar';
-import { getServerSession } from 'next-auth';
 import { getAppServerSession } from '../utils/get-server-session';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -21,7 +21,7 @@ export default async function RootLayout({
   const session = await getAppServerSession();
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <RootProvider session={session}>
           <Navbar />
