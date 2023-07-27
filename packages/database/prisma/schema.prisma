@@ -39,6 +39,7 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
+  role          RoleEnum  @default(USER)
   password      String?
   image         String?
   accounts      Account[]
@@ -51,4 +52,9 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+enum RoleEnum {
+  USER
+  ADMIN
 }

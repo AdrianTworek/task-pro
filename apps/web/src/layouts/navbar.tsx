@@ -14,7 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from 'ui';
-import ThemeToggle from '../components/theme-toggle';
+import ThemeToggle from '@/components/theme-toggle';
 import { LogOut, LayoutDashboard, User } from 'lucide-react';
 
 export default function Navbar() {
