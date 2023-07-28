@@ -1,6 +1,5 @@
+import { AddProjectCard } from '@/components/common/add-project/add-project-card';
 import { ProjectCard } from '@/components/common/project-card';
-import { PlusIcon } from 'lucide-react';
-import { Card, CardContent } from 'ui';
 
 export default async function DashboardPage() {
   const projects: Array<{
@@ -67,15 +66,7 @@ export default async function DashboardPage() {
     <main className='container pt-12 flex flex-col'>
       <h1 className='text-4xl font-semibold mb-6'>Projects</h1>
       <div className='grid grid-cols-3 gap-8 xl:grid-cols-4'>
-        <Card className='flex flex-col items-center justify-center text-center'>
-          <CardContent className='flex flex-col items-center'>
-            <PlusIcon className='w-10 h-10' />
-            <h4>Add a new project</h4>
-            <p className='text-sm text-muted-foreground'>
-              Create a new project and invite your team members
-            </p>
-          </CardContent>
-        </Card>
+        <AddProjectCard />
         {projects.map((project) => (
           <ProjectCard {...project} key={'project__' + project.id} />
         ))}
