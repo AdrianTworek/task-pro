@@ -1,11 +1,13 @@
 'use server';
 
 import { ServerErrorResponse } from '@/server/types/errors';
+import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export const createProjectAction = async (
-  form: FormData
+  form: FormData,
+  users: string[]
 ): Promise<ServerErrorResponse> => {
   let project;
   try {
@@ -27,6 +29,7 @@ export const createProjectAction = async (
     const body = {
       name,
       description,
+      members: users,
     };
 
     const res = await fetch(`${process.env['NEXTAUTH_URL']}api/projects/`, {
@@ -47,7 +50,7 @@ export const createProjectAction = async (
 
     project = await res.json();
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return {
       error: {
         code: 500,
@@ -55,6 +58,6 @@ export const createProjectAction = async (
       },
     };
   }
-
+  revalidatePath('/dashboard');
   redirect(`/project/${project.id}`);
 };

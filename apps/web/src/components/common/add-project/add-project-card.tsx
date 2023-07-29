@@ -2,6 +2,7 @@
 import { createProjectAction } from '@/components/common/add-project/actions';
 import { AddProjectFormContent } from '@/components/common/add-project/add-project-form-content';
 import { isValidationErrorResponse } from '@/server/types/errors';
+import { SearchUsersResponse } from '@/server/user/user.services';
 import { PlusIcon } from 'lucide-react';
 import React, { useState } from 'react';
 import {
@@ -18,11 +19,14 @@ export function AddProjectCard() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
-
+  const [selectedUsers, setSelectedUsers] = useState<SearchUsersResponse>([]);
   const handleSubmit = async (formData: FormData) => {
     setError(null);
     setValidationErrors([]);
-    const errorResponse = await createProjectAction(formData);
+    const errorResponse = await createProjectAction(
+      formData,
+      selectedUsers.map((user) => user.id)
+    );
 
     if (errorResponse) {
       if (isValidationErrorResponse(errorResponse)) {
@@ -45,7 +49,7 @@ export function AddProjectCard() {
       }}
     >
       <DialogTrigger asChild>
-        <Card className='flex flex-col items-center justify-center text-center cursor-pointer'>
+        <Card className='flex flex-col items-center justify-center text-center cursor-pointer min-h-[220px] h-full hover:shadow hover:shadow-background hover:scale-[102%] transition-all ease-out hover:border-foreground'>
           <CardContent className='flex flex-col items-center'>
             <PlusIcon className='w-10 h-10' />
             <h4>Add a new project</h4>
@@ -66,6 +70,8 @@ export function AddProjectCard() {
               error={error}
               validationErrors={validationErrors}
               closeDialog={() => setDialogOpen(false)}
+              selectedUsers={selectedUsers}
+              setSelectedUsers={setSelectedUsers}
             />
           </form>
         </DialogContent>
