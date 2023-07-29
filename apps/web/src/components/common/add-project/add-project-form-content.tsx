@@ -2,7 +2,7 @@
 import SearchUserItem from '@/components/common/add-project/search-user-item';
 import { SearchUsersResponse } from '@/server/user/user.services';
 import { Loader2, User, X } from 'lucide-react';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { Button, Input, Label, ScrollArea, Textarea, useToast } from 'ui';
 import { cn } from 'ui/src/lib/utils';
@@ -25,6 +25,11 @@ export function AddProjectFormContent({
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const [searchResults, setSearchResults] = useState<SearchUsersResponse>([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
+  const [searchNextPage, setSearchNextPage] = useState<number | undefined>(
+    undefined
+  );
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleUserSearch = async (e: ChangeEvent<HTMLInputElement>) => {
     setLoadingUsers(true);
@@ -37,7 +42,7 @@ export function AddProjectFormContent({
       timeout.current = setTimeout(async () => {
         try {
           const res = await fetch(
-            `/api/users/search?q=${e.target.value.trim()}`
+            `/api/users/search?q=${e.target.value.trim()}&page=1`
           );
 
           if (!res.ok) {
@@ -52,9 +57,12 @@ export function AddProjectFormContent({
             return;
           }
 
-          const { users } = (await res.json()) as {
+          const { users, nextPage } = (await res.json()) as {
             users: SearchUsersResponse;
+            nextPage: number | undefined;
           };
+
+          setSearchNextPage(nextPage);
           setSearchResults(users);
         } catch (e) {
           console.error(e);
@@ -67,6 +75,45 @@ export function AddProjectFormContent({
           setLoadingUsers(false);
         }
       }, 1000);
+    }
+  };
+
+  const loadMoreUsers = async () => {
+    setLoadingUsers(true);
+    try {
+      if (!inputRef.current?.value.trim().length || !searchNextPage) return;
+
+      const res = await fetch(
+        `/api/users/search?q=${inputRef.current?.value.trim()}&page=${searchNextPage}`
+      );
+
+      if (!res.ok) {
+        const errorRes = await res.json();
+
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: errorRes.error.message,
+        });
+        setLoadingUsers(false);
+        return;
+      }
+
+      const { users, nextPage } = (await res.json()) as {
+        users: SearchUsersResponse;
+        nextPage: number | undefined;
+      };
+      setSearchNextPage(nextPage);
+      setSearchResults((prev) => [...prev, ...users]);
+    } catch (e) {
+      console.error(e);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Something went wrong when searching for users',
+      });
+    } finally {
+      setLoadingUsers(false);
     }
   };
 
@@ -118,6 +165,7 @@ export function AddProjectFormContent({
           name='users'
           placeholder='Search users by email'
           onChange={handleUserSearch}
+          ref={inputRef}
         />
       </div>
 
@@ -200,6 +248,17 @@ export function AddProjectFormContent({
                   }
                 />
               ))}
+              {searchNextPage && (
+                <Button
+                  disabled={loadingUsers}
+                  type='button'
+                  variant='link'
+                  className='text-center w-full'
+                  onClick={loadMoreUsers}
+                >
+                  Load more
+                </Button>
+              )}
             </div>
           )}
         </ScrollArea>
