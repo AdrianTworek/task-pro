@@ -6,3 +6,5 @@ export * from './src/components/ui/dialog';
 export * from './src/components/ui/input';
 export * from './src/components/ui/textarea';
 export * from './src/components/ui/label';
+export * from './src/components/ui/popover';
+export * from './src/components/ui/scroll-area';
