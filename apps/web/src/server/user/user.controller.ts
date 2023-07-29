@@ -3,6 +3,8 @@ import { ServerError } from '@/server/utils/server-errors';
 import { getAppServerSession } from '@/utils/get-server-session';
 import { NextRequest, NextResponse } from 'next/server';
 
+const SEARCH_USERS_LIMIT = 5;
+
 export const searchUserHandler = async (req: NextRequest) => {
   const session = await getAppServerSession();
 
@@ -24,9 +26,17 @@ export const searchUserHandler = async (req: NextRequest) => {
     });
   }
 
-  const users = await searchUsers(query, page, session.user.id);
+  const users = await searchUsers(
+    query,
+    page,
+    session.user.id,
+    SEARCH_USERS_LIMIT
+  );
+
+  const nextPage = users.length === SEARCH_USERS_LIMIT ? page + 1 : undefined;
 
   return NextResponse.json({
     users,
+    nextPage,
   });
 };
