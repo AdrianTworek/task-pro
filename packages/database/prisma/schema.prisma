@@ -44,6 +44,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  members       Member[]
 }
 
 model VerificationToken {
@@ -54,7 +55,35 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Member {
+  id        String     @id @default(cuid())
+  userId    String
+  projectId String
+  project   Project    @relation(fields: [projectId], references: [id])
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      MemberEnum
+
+  craetedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  members     Member[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum RoleEnum {
   USER
   ADMIN
+}
+
+enum MemberEnum {
+  OWNER
+  ADMIN
+  USER
 }
