@@ -4,7 +4,7 @@ import { SearchUsersResponse } from '@/server/user/user.services';
 import { Loader2, User, X } from 'lucide-react';
 import React, { ChangeEvent, useState } from 'react';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
-import { Button, Input, Label, ScrollArea, Textarea } from 'ui';
+import { Button, Input, Label, ScrollArea, Textarea, useToast } from 'ui';
 import { cn } from 'ui/src/lib/utils';
 
 export function AddProjectFormContent({
@@ -20,8 +20,8 @@ export function AddProjectFormContent({
   selectedUsers: SearchUsersResponse;
   setSelectedUsers: React.Dispatch<React.SetStateAction<SearchUsersResponse>>;
 }) {
+  const { toast } = useToast();
   const { pending } = useFormStatus();
-  const [searchDropdownOpen, setSearchDropdownOpen] = useState(false);
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const [searchResults, setSearchResults] = useState<SearchUsersResponse>([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
@@ -35,15 +35,37 @@ export function AddProjectFormContent({
       setLoadingUsers(false);
     } else {
       timeout.current = setTimeout(async () => {
-        const res = await fetch(`/api/users/search?q=${e.target.value.trim()}`);
-        if (!res.ok) {
-          console.error('Something went wrong');
-          return;
-        }
+        try {
+          const res = await fetch(
+            `/api/users/search?q=${e.target.value.trim()}`
+          );
 
-        const { users } = (await res.json()) as { users: SearchUsersResponse };
-        setSearchResults(users);
-        setLoadingUsers(false);
+          if (!res.ok) {
+            const errorRes = await res.json();
+
+            toast({
+              variant: 'destructive',
+              title: 'Error',
+              description: errorRes.error.message,
+            });
+            setLoadingUsers(false);
+            return;
+          }
+
+          const { users } = (await res.json()) as {
+            users: SearchUsersResponse;
+          };
+          setSearchResults(users);
+        } catch (e) {
+          console.error(e);
+          toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'Something went wrong when searching for users',
+          });
+        } finally {
+          setLoadingUsers(false);
+        }
       }, 1000);
     }
   };
