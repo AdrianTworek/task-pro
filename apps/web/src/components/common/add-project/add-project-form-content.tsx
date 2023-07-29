@@ -116,18 +116,22 @@ export function AddProjectFormContent({
       setLoadingUsers(false);
     }
   };
+  const showNoUsersFound =
+    !loadingUsers &&
+    !searchResults.length &&
+    !!inputRef.current?.value.trim().length;
 
   const showSearchedUsers = !!searchResults.length;
-  const showSelectedUsers = !!selectedUsers.length && !searchResults.length;
+  const showSelectedUsers =
+    !!selectedUsers.length && !searchResults.length && !showNoUsersFound;
 
   const showList = showSearchedUsers || showSelectedUsers;
 
   const showLoader =
     loadingUsers && !searchResults.length && !selectedUsers.length;
 
-  const showEmptyState = !loadingUsers && !showList;
-
-  const showNoUsersFound = !loadingUsers && !searchResults.length;
+  const showEmptyState =
+    !loadingUsers && !showList && !inputRef.current?.value.trim().length;
 
   return (
     <>
@@ -162,6 +166,7 @@ export function AddProjectFormContent({
       <div className='grid w-full items-center mb-4 gap-1.5'>
         <Label htmlFor='users'>Users</Label>
         <Input
+          type='search'
           name='users'
           placeholder='Search users by email'
           onChange={handleUserSearch}
@@ -176,39 +181,41 @@ export function AddProjectFormContent({
         </div>
       )}
 
-      {showEmptyState && (
+      {showNoUsersFound && (
         <div
           className={cn(
-            ' h-40 flex items-center justify-center flex-col border rounded-sm mb-6',
+            ' h-40 flex items-center justify-center flex-col border rounded-sm mb-6 transition-all',
             pending && 'opacity-50 cursor-not-allowed'
           )}
         >
-          {showNoUsersFound && (
-            <>
-              <X className='w-8 h-8 mb-2' />
-              <h5>Not found</h5>
-              <span className='text-sm text-gray-500'>
-                There is no user that matches your search
-              </span>
-            </>
+          <X className='w-8 h-8 mb-2' />
+          <h5>Not found</h5>
+          <span className='text-sm text-gray-500'>
+            There is no user that matches your search
+          </span>
+        </div>
+      )}
+
+      {showEmptyState && (
+        <div
+          className={cn(
+            ' h-40 flex items-center justify-center flex-col border rounded-sm mb-6 transition-all',
+            pending && 'opacity-50 cursor-not-allowed'
           )}
-          {!showNoUsersFound && (
-            <>
-              <User className='w-8 h-8 mb-2' />
-              <h5>Add members</h5>
-              <span className='text-sm text-gray-500'>
-                Search for users by email and add them to this project
-              </span>
-            </>
-          )}
+        >
+          <User className='w-8 h-8 mb-2' />
+          <h5>Add members</h5>
+          <span className='text-sm text-gray-500'>
+            Search for users by email and add them to this project
+          </span>
         </div>
       )}
 
       {showList && (
         <ScrollArea
           className={cn(
-            'h-40 border rounded mb-6',
-            pending && 'opacity-50 cursor-not-allowed'
+            'h-40 border rounded mb-6 transition-all',
+            (pending || loadingUsers) && 'opacity-50 cursor-not-allowed'
           )}
         >
           {showSelectedUsers && (
@@ -258,6 +265,11 @@ export function AddProjectFormContent({
                 >
                   Load more
                 </Button>
+              )}
+              {!searchNextPage && (
+                <p className='w-full px-4 py-2 my-0.5 text-center text-sm'>
+                  No more users to load
+                </p>
               )}
             </div>
           )}
