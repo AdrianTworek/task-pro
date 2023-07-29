@@ -6,11 +6,17 @@
     "db:push": "prisma db push --skip-generate",
     "db:studio": "npx prisma studio"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^5.0.0"
   },
   "devDependencies": {
-    "prisma": "^5.0.0"
+    "@faker-js/faker": "^8.0.2",
+    "bcryptjs": "^2.4.3",
+    "prisma": "^5.0.0",
+    "ts-node": "^10.9.1"
   },
   "main": "./index.ts",
   "types": "./index.ts"
