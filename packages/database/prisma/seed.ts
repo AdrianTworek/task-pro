@@ -1,10 +1,4 @@
-import {
-  PrismaClient,
-  RoleEnum,
-  Prisma,
-  User,
-  MemberEnum,
-} from '@prisma/client';
+import { PrismaClient, RoleEnum, User, MemberEnum } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcryptjs';
 console.log('seeding database...');
@@ -63,7 +57,7 @@ const createUsers = async () => {
 };
 
 const createProjects = async (mainUser: User, users: User[]) => {
-  const projectsArray = Array.from({ length: 10 }).map((_, idx) => {
+  const projectsArray = Array.from({ length: 5 }).map((_, idx) => {
     return {
       name: faker.company.name(),
       description: faker.company.catchPhrase(),
