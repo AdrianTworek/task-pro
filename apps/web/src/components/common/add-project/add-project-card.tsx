@@ -1,5 +1,5 @@
 'use client';
-import { createProjectAction } from '@/components/common/add-project/actions';
+import { createProjectAction } from '@/components/common/add-project/add-project.actions';
 import { AddProjectFormContent } from '@/components/common/add-project/add-project-form-content';
 import { isValidationErrorResponse } from '@/server/types/errors';
 import { SearchUsersResponse } from '@/server/user/user.services';
