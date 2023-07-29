@@ -14,6 +14,7 @@ export const searchUsers = async (
       where: {
         email: {
           contains: query,
+          mode: 'insensitive',
         },
         AND: {
           NOT: {
