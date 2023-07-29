@@ -1,5 +1,5 @@
 import { AddProjectCard } from '@/components/common/add-project/add-project-card';
-import { ProjectCard } from '@/components/common/project-card';
+import { ProjectCard } from '@/components/common/project-card/project-card';
 import { GetProjectsResponse } from '@/server/project/project.services';
 import { headers } from 'next/headers';
 

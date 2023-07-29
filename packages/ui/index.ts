@@ -11,3 +11,4 @@ export * from './src/components/ui/scroll-area';
 export * from './src/components/ui/toast';
 export * from './src/components/ui/toaster';
 export * from './src/components/ui/use-toast';
+export * from './src/components/ui/skeleton';
