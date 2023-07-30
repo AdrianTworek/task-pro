@@ -1,3 +1,5 @@
+'use client';
+
 export * from './src/components/ui/button';
 export * from './src/components/ui/dropdown-menu';
 export * from './src/components/ui/avatar';
@@ -12,3 +14,4 @@ export * from './src/components/ui/toast';
 export * from './src/components/ui/toaster';
 export * from './src/components/ui/use-toast';
 export * from './src/components/ui/skeleton';
+export * from './src/components/ui/form';
