@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 import {
   Avatar,
@@ -37,7 +37,11 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <ThemeToggle />
 
-          {!session && <Button onClick={() => signIn()}>Sign in</Button>}
+          {!session && (
+            <Link href="/login">
+              <Button>Sign in</Button>
+            </Link>
+          )}
           {!!session && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

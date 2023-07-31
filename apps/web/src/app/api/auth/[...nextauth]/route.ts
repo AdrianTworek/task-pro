@@ -42,24 +42,11 @@ export const OPTIONS: NextAuthOptions = {
           registerWithCredentialsSchema.parse(credentials);
 
         const user = await prisma.user.findUnique({
-          where: { email: email },
+          where: { email },
         });
 
-        // Register
-        if (!user) {
-          const hashedPassword = await bcrypt.hash(password, 12);
+        if (!user) return null;
 
-          const newUser = await prisma.user.create({
-            data: {
-              email: email,
-              password: hashedPassword,
-            },
-          });
-
-          return newUser;
-        }
-
-        // Login
         const isPasswordValid = await bcrypt.compare(
           password,
           user.password ?? ''
@@ -89,6 +76,9 @@ export const OPTIONS: NextAuthOptions = {
   },
   session: {
     strategy: 'jwt',
+  },
+  pages: {
+    signIn: '/login',
   },
   secret: process.env['NEXTAUTH_SECRET'],
 };
