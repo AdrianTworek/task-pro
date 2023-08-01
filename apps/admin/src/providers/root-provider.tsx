@@ -2,6 +2,9 @@
 
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
+import NextTopLoader from 'nextjs-toploader';
+
+import { Toaster } from 'ui';
 
 export function RootProvider({
   children,
@@ -10,5 +13,11 @@ export function RootProvider({
   session: Session | null;
   children: React.ReactNode;
 }) {
-  return <SessionProvider session={session}>{children}</SessionProvider>;
+  return (
+    <SessionProvider session={session}>
+      <NextTopLoader showSpinner={false} />
+      <Toaster />
+      {children}
+    </SessionProvider>
+  );
 }
