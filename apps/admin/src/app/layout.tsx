@@ -1,8 +1,9 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { getAppServerSession } from '@/utils/get-server-session';
 import { redirect } from 'next/navigation';
+
+import { getAppServerSession } from '@/utils/get-server-session';
 import { RootProvider } from '@/providers/root-provider';
 import { RoleEnum } from 'database';
 
@@ -26,9 +27,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <RootProvider session={session}>
-        <body className={inter.className}>{children}</body>
-      </RootProvider>
+      <body className={inter.className}>
+        <RootProvider session={session}>{children}</RootProvider>
+      </body>
     </html>
   );
 }
