@@ -15,6 +15,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  SubmitButton,
   useToast,
 } from 'ui';
 import SocialProviders from '../social-providers';
@@ -24,6 +25,7 @@ import {
   registerWithCredentialsSchema,
   RegisterWithCredentialsBody,
 } from '@/server/auth/auth.schema';
+import { signIn } from 'next-auth/react';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -54,37 +56,47 @@ export default function LoginForm() {
         return;
       }
 
+      await signIn('credentials', {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+
       toast({
         title: 'Successfully registered!',
-        description: 'You can sign into your account',
+        description: 'Welcome to Task-Pro!',
       });
-      router.push('/login');
+      router.push('/dashboard');
     });
   };
 
   return (
-    <Card className="py-8 px-6 space-y-6 drop-shadow-md">
-      <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight text-center">
+    <Card className='py-8 px-6 space-y-6 drop-shadow-md'>
+      <h2 className='scroll-m-20 text-3xl font-semibold tracking-tight text-center'>
         Sign up with
       </h2>
 
-      <SocialProviders />
+      <SocialProviders loading={isPending} />
 
-      <span className="block text-center">or</span>
+      <span className='block text-center'>or</span>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onCredentialsSubmit)}
-          className="flex flex-col flex-1 space-y-8"
+          className='flex flex-col flex-1 space-y-8'
         >
           <FormField
             control={form.control}
-            name="email"
+            name='email'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email Address</FormLabel>
                 <FormControl>
-                  <Input placeholder="example@test.com" {...field} />
+                  <Input
+                    disabled={isPending}
+                    placeholder='example@test.com'
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -92,12 +104,12 @@ export default function LoginForm() {
           />
           <FormField
             control={form.control}
-            name="password"
+            name='password'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <Input disabled={isPending} type='password' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -105,27 +117,25 @@ export default function LoginForm() {
           />
           <FormField
             control={form.control}
-            name="confirmPassword"
+            name='confirmPassword'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <Input disabled={isPending} type='password' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isPending}>
-            Register
-          </Button>
+          <SubmitButton disabled={isPending}>Register</SubmitButton>
         </form>
       </Form>
 
-      <div className="self-center mt-4">
+      <div className='self-center mt-4'>
         <p>
           Already registered?{' '}
-          <Link href="/login" className="underline">
+          <Link href='/login' className='underline'>
             Login
           </Link>
         </p>
