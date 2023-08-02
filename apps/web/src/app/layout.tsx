@@ -5,6 +5,7 @@ import { getAppServerSession } from '@/utils/get-server-session';
 import { RootProvider } from '@/providers/root-provider';
 
 import Navbar from '@/layouts/navbar';
+import { cn } from 'ui/src/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,8 +22,8 @@ export default async function RootLayout({
   const session = await getAppServerSession();
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang='en' suppressHydrationWarning>
+      <body className={cn(inter.className, 'min-h-screen bg-background')}>
         <RootProvider session={session}>
           <Navbar />
           {children}
