@@ -1,5 +1,5 @@
 'use client';
-import { SearchUsersResponse } from '@/server/user/user.services';
+import { SearchUsersResult } from '@/server/user/user.services';
 import { PlusIcon, Trash2, User } from 'lucide-react';
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from 'ui';
@@ -11,10 +11,10 @@ export default function SearchUserItem({
   removeSelection,
   disabled,
 }: {
-  user: SearchUsersResponse[number];
+  user: SearchUsersResult[number];
   isSelected: boolean;
-  selectUser: (user: SearchUsersResponse[number]) => void;
-  removeSelection: (user: SearchUsersResponse[number]) => void;
+  selectUser: (user: SearchUsersResult[number]) => void;
+  removeSelection: (user: SearchUsersResult[number]) => void;
   disabled?: boolean;
 }) {
   return (

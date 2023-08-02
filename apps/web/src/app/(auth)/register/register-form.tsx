@@ -19,15 +19,16 @@ import {
   useToast,
 } from 'ui';
 import SocialProviders from '../social-providers';
-import { registerAction } from './register.action';
+import { registerAction } from '@/server/auth/auth.actions';
 import { useTransition } from 'react';
 import {
   registerWithCredentialsSchema,
   RegisterWithCredentialsBody,
 } from '@/server/auth/auth.schema';
 import { signIn } from 'next-auth/react';
+import { isCommonErrorResponse } from '@/server/types/errors';
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
@@ -46,12 +47,11 @@ export default function LoginForm() {
   const onCredentialsSubmit = async (values: RegisterWithCredentialsBody) => {
     startTransition(async () => {
       const res = await registerAction(values);
-
-      if (res?.error) {
+      if (isCommonErrorResponse(res)) {
         toast({
           variant: 'destructive',
           title: 'Oh! Something went wrong',
-          description: res?.error?.message,
+          description: res.error.message,
         });
         return;
       }

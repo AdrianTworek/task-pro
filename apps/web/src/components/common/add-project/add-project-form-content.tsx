@@ -1,7 +1,12 @@
 'use client';
 import SearchUserItem from '@/components/common/add-project/search-user-item';
+import {
+  isCommonErrorResponse,
+  isValidationErrorResponse,
+} from '@/server/types/errors';
+import { searchUserAction } from '@/server/user/user.actions';
 
-import { SearchUsersResponse } from '@/server/user/user.services';
+import { SearchUsersResult } from '@/server/user/user.services';
 import { Loader2, User, X } from 'lucide-react';
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
@@ -26,13 +31,13 @@ export function AddProjectFormContent({
   error: string | null;
   validationErrors: string[];
   closeDialog: () => void;
-  selectedUsers: SearchUsersResponse;
-  setSelectedUsers: React.Dispatch<React.SetStateAction<SearchUsersResponse>>;
+  selectedUsers: SearchUsersResult;
+  setSelectedUsers: React.Dispatch<React.SetStateAction<SearchUsersResult>>;
 }) {
   const { toast } = useToast();
   const { pending } = useFormStatus();
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
-  const [searchResults, setSearchResults] = useState<SearchUsersResponse>([]);
+  const [searchResults, setSearchResults] = useState<SearchUsersResult>([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [searchNextPage, setSearchNextPage] = useState<number | undefined>(
     undefined
@@ -40,80 +45,25 @@ export function AddProjectFormContent({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleUserSearch = async (e: ChangeEvent<HTMLInputElement>) => {
-    setLoadingUsers(true);
-    if (timeout.current) clearTimeout(timeout.current);
-
-    if (!e.target.value.trim().length || !e.target.value) {
-      setSearchResults([]);
-      setLoadingUsers(false);
-    } else {
-      timeout.current = setTimeout(async () => {
-        try {
-          const res = await fetch(
-            `/api/users/search?q=${e.target.value.trim()}&page=1`
-          );
-
-          if (!res.ok) {
-            const errorRes = await res.json();
-
-            toast({
-              variant: 'destructive',
-              title: 'Error',
-              description: errorRes.error.message,
-            });
-            setLoadingUsers(false);
-            return;
-          }
-
-          const { users, nextPage } = (await res.json()) as {
-            users: SearchUsersResponse;
-            nextPage: number | undefined;
-          };
-
-          setSearchNextPage(nextPage);
-          setSearchResults(users);
-        } catch (e) {
-          console.error(e);
-          toast({
-            variant: 'destructive',
-            title: 'Error',
-            description: 'Something went wrong when searching for users',
-          });
-        } finally {
-          setLoadingUsers(false);
-        }
-      }, 1000);
-    }
-  };
-
-  const loadMoreUsers = async () => {
-    setLoadingUsers(true);
+  const searchForUsers = async (query: string, page?: number) => {
     try {
-      if (!inputRef.current?.value.trim().length || !searchNextPage) return;
+      const res = await searchUserAction({
+        query: query.trim(),
+        page: page ?? 1,
+      });
 
-      const res = await fetch(
-        `/api/users/search?q=${inputRef.current?.value.trim()}&page=${searchNextPage}`
-      );
-
-      if (!res.ok) {
-        const errorRes = await res.json();
-
+      if (isValidationErrorResponse(res) || isCommonErrorResponse(res)) {
         toast({
           variant: 'destructive',
           title: 'Error',
-          description: errorRes.error.message,
+          description: res.error.message,
         });
         setLoadingUsers(false);
         return;
       }
 
-      const { users, nextPage } = (await res.json()) as {
-        users: SearchUsersResponse;
-        nextPage: number | undefined;
-      };
-      setSearchNextPage(nextPage);
-      setSearchResults((prev) => [...prev, ...users]);
+      setSearchNextPage(res.nextPage);
+      setSearchResults((prev) => [...prev, ...res.users]);
     } catch (e) {
       console.error(e);
       toast({
@@ -124,6 +74,28 @@ export function AddProjectFormContent({
     } finally {
       setLoadingUsers(false);
     }
+  };
+
+  const handleUserSearch = async (e: ChangeEvent<HTMLInputElement>) => {
+    setLoadingUsers(true);
+    if (timeout.current) clearTimeout(timeout.current);
+
+    if (!e.target.value.trim().length || !e.target.value) {
+      setSearchResults([]);
+      setLoadingUsers(false);
+    } else {
+      timeout.current = setTimeout(async () => {
+        searchForUsers(e.target.value, 1);
+      }, 1000);
+    }
+  };
+
+  const loadMoreUsers = async () => {
+    setLoadingUsers(true);
+
+    if (!inputRef.current?.value.trim().length || !searchNextPage) return;
+
+    searchForUsers(inputRef.current?.value, searchNextPage);
   };
   const showNoUsersFound =
     !loadingUsers &&

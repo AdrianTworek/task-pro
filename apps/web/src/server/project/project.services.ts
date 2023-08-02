@@ -1,8 +1,9 @@
+import { StatusCodes } from 'http-status-codes';
 import { CreateProjectBody } from '@/server/project/project.schema';
 import { ServerError } from '@/server/utils/server-errors';
 import { MemberEnum, prisma } from 'database';
 
-export type GetProjectsResponse = Awaited<ReturnType<typeof getProjects>>;
+export type GetProjectsResult = Awaited<ReturnType<typeof getProjects>>;
 
 export const getProjects = async (userId: string) => {
   try {
@@ -42,11 +43,13 @@ export const getProjects = async (userId: string) => {
   } catch (e: any) {
     throw new ServerError({
       message: 'Failed to get projects',
-      code: 500,
+      code: StatusCodes.INTERNAL_SERVER_ERROR,
       cause: e,
     });
   }
 };
+
+export type CreateProjectResult = Awaited<ReturnType<typeof createProject>>;
 
 export const createProject = async (
   userId: string,
@@ -72,7 +75,7 @@ export const createProject = async (
   } catch (e: any) {
     throw new ServerError({
       message: 'Failed to create project',
-      code: 500,
+      code: StatusCodes.INTERNAL_SERVER_ERROR,
       cause: e,
     });
   }

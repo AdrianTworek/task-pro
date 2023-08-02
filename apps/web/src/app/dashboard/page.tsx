@@ -1,35 +1,22 @@
 import { AddProjectCard } from '@/components/common/add-project/add-project-card';
 import { ProjectCard } from '@/components/common/project-card/project-card';
-import { GetProjectsResponse } from '@/server/project/project.services';
-import { headers } from 'next/headers';
+import { fetchProjects } from '@/server/project/projects.fetchers';
+import { isCommonErrorResponse } from '@/server/types/errors';
 
 export default async function DashboardPage() {
-  const res = await fetch(`${process.env['NEXTAUTH_URL']}api/projects`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      cookie: headers().get('cookie') ?? '',
-    },
-  });
+  const response = await fetchProjects();
 
-  if (!res.ok) {
-    const errorRes = await res.json();
-
-    if (errorRes.error) {
-      console.error(errorRes.error);
-    }
-
+  if (isCommonErrorResponse(response)) {
+    console.error(response.error);
     return <div>Something went wrong</div>;
   }
-
-  const data = (await res.json()) as { projects: GetProjectsResponse };
 
   return (
     <main className='container py-12 flex flex-col'>
       <h1 className='text-4xl font-semibold mb-6'>Projects</h1>
       <div className='grid grid-cols-3 gap-8 xl:grid-cols-4'>
         <AddProjectCard />
-        {data.projects.map((project) => (
+        {response.projects.map((project) => (
           <ProjectCard
             createdAt={new Date(project.createdAt)}
             description={project.description}
