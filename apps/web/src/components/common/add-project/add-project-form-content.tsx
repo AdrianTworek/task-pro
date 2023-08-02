@@ -1,10 +1,19 @@
 'use client';
 import SearchUserItem from '@/components/common/add-project/search-user-item';
+
 import { SearchUsersResponse } from '@/server/user/user.services';
 import { Loader2, User, X } from 'lucide-react';
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
-import { Button, Input, Label, ScrollArea, Textarea, useToast } from 'ui';
+import {
+  Button,
+  Input,
+  Label,
+  ScrollArea,
+  Textarea,
+  useToast,
+  SubmitButton,
+} from 'ui';
 import { cn } from 'ui/src/lib/utils';
 
 export function AddProjectFormContent({
@@ -275,24 +284,7 @@ export function AddProjectFormContent({
           )}
         </ScrollArea>
       )}
-      <Button type='submit' disabled={pending} className='relative mb-6'>
-        <span
-          className={cn(
-            'absolute top-1/2 -translate-y-1/2 opacity-100 transition-opacity duration-200',
-            pending && 'opacity-0'
-          )}
-        >
-          Create Project
-        </span>
-        <span
-          className={cn(
-            'absolute top-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-200 ',
-            pending && 'opacity-100'
-          )}
-        >
-          <Loader2 className='w-5 h-5 text-background animate-spin' />
-        </span>
-      </Button>
+      <SubmitButton disabled={pending}>Create project</SubmitButton>
       <Button
         disabled={pending}
         onClick={closeDialog}
