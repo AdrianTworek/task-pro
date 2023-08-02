@@ -2,9 +2,9 @@
 
 import { RegisterWithCredentialsBody } from '@/server/auth/auth.schema';
 
-type FormData = RegisterWithCredentialsBody;
+type RegisterFormData = RegisterWithCredentialsBody;
 
-export const registerAction = async (data: FormData) => {
+export const registerAction = async (data: RegisterFormData) => {
   const res = await fetch(`${process.env['NEXTAUTH_URL']}api/auth/register`, {
     method: 'POST',
     headers: {
