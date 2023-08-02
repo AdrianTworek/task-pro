@@ -1,8 +1,12 @@
 'use client';
-import { createProjectAction } from '@/components/common/add-project/add-project.actions';
+
 import { AddProjectFormContent } from '@/components/common/add-project/add-project-form-content';
-import { isValidationErrorResponse } from '@/server/types/errors';
-import { SearchUsersResponse } from '@/server/user/user.services';
+import { createProjectAction } from '@/server/project/project.actions';
+import {
+  isCommonErrorResponse,
+  isValidationErrorResponse,
+} from '@/server/types/errors';
+import { SearchUsersResult } from '@/server/user/user.services';
 import { PlusIcon } from 'lucide-react';
 import React, { useState } from 'react';
 import {
@@ -19,23 +23,25 @@ export function AddProjectCard() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
-  const [selectedUsers, setSelectedUsers] = useState<SearchUsersResponse>([]);
+  const [selectedUsers, setSelectedUsers] = useState<SearchUsersResult>([]);
   const handleSubmit = async (formData: FormData) => {
     setError(null);
     setValidationErrors([]);
+
     const errorResponse = await createProjectAction(
       formData,
       selectedUsers.map((user) => user.id)
     );
 
-    if (errorResponse) {
-      if (isValidationErrorResponse(errorResponse)) {
-        setValidationErrors(
-          errorResponse.error.issues.map((issue) => issue.message)
-        );
-        return;
-      }
+    if (isValidationErrorResponse(errorResponse)) {
+      setValidationErrors(
+        errorResponse.error.issues.map((issue) => issue.message)
+      );
+      return;
+    }
+    if (isCommonErrorResponse(errorResponse)) {
       setError(errorResponse.error.message);
+      return;
     }
   };
 

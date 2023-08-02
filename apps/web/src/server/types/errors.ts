@@ -1,13 +1,15 @@
+import { StatusCodes } from 'http-status-codes';
+
 export type CommonErrorResponse = {
   error: {
-    code: number;
+    code: StatusCodes;
     message: string;
   };
 };
 
 export type ValidationErrorResponse = {
   error: {
-    code: number;
+    code: StatusCodes;
     message: string;
     issues: {
       field: string;

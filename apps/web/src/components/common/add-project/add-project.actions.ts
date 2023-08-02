@@ -57,7 +57,8 @@ export const createProjectAction = async (
         message: 'Unexpected Server Error occurred',
       },
     };
+  } finally {
+    revalidatePath('/dashboard');
+    redirect(`/project/${project.id}`);
   }
-  revalidatePath('/dashboard');
-  redirect(`/project/${project.id}`);
 };
