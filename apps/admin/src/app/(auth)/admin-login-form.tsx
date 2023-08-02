@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
-  Button,
   Card,
   Form,
   FormControl,
@@ -16,8 +15,10 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  SubmitButton,
   useToast,
 } from 'ui';
+import { useState } from 'react';
 
 const loginSchema = z.object({
   email: z
@@ -33,6 +34,7 @@ type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function AdminLoginForm() {
   const router = useRouter();
+  const [loggingIn, setLoggingIn] = useState(false);
 
   const { toast } = useToast();
 
@@ -45,6 +47,7 @@ export default function AdminLoginForm() {
   });
 
   const onCredentialsSubmit = async (values: LoginSchema) => {
+    setLoggingIn(true);
     const res = await signIn('credentials', {
       ...values,
       redirect: false,
@@ -56,34 +59,36 @@ export default function AdminLoginForm() {
         title: 'Invalid credentials!',
         description: 'Please try again',
       });
+      setLoggingIn(false);
       return;
     }
 
     toast({
       title: 'Successfully logged into admin dashboard!',
     });
+    setLoggingIn(false);
     router.push('/dashboard');
   };
 
   return (
-    <Card className="container max-w-md flex flex-col justify-center mt-24 py-8 px-6 space-y-6 drop-shadow-md ">
-      <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight text-center">
+    <Card className='container max-w-md flex flex-col justify-center mt-24 py-8 px-6 space-y-6 drop-shadow-md '>
+      <h2 className='scroll-m-20 text-3xl font-semibold tracking-tight text-center'>
         TaskPRO Admin
       </h2>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onCredentialsSubmit)}
-          className="flex flex-col flex-1 space-y-8"
+          className='flex flex-col flex-1 space-y-8'
         >
           <FormField
             control={form.control}
-            name="email"
+            name='email'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email Address</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input disabled={loggingIn} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,18 +96,18 @@ export default function AdminLoginForm() {
           />
           <FormField
             control={form.control}
-            name="password"
+            name='password'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <Input disabled={loggingIn} type='password' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Login</Button>
+          <SubmitButton disabled={loggingIn}>Login</SubmitButton>
         </form>
       </Form>
     </Card>
