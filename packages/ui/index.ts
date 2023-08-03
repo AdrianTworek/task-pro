@@ -19,5 +19,6 @@ export * from './src/components/ui/table';
 export * from './src/components/ui/data-table';
 
 export * from './src/components/submit-button';
+export * from './src/components/sidebar';
 export * from './src/components/ui/sheet';
 export * from './src/components/ui/separator';
