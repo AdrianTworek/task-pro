@@ -16,5 +16,6 @@ export * from './src/components/ui/use-toast';
 export * from './src/components/ui/skeleton';
 export * from './src/components/ui/form';
 export * from './src/components/ui/table';
+export * from './src/components/ui/data-table';
 
 export * from './src/components/submit-button';
