@@ -14,7 +14,7 @@ import { redirect } from 'next/navigation';
 
 export const createProjectAction = async (
   formData: FormData,
-  members: string[]
+  members: string[],
 ) => {
   const session = await getAppServerSession();
 

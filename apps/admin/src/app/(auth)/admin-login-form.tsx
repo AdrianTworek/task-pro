@@ -71,19 +71,19 @@ export default function AdminLoginForm() {
   };
 
   return (
-    <Card className='container max-w-md flex flex-col justify-center mt-24 py-8 px-6 space-y-6 drop-shadow-md '>
-      <h2 className='scroll-m-20 text-3xl font-semibold tracking-tight text-center'>
+    <Card className="container max-w-md flex flex-col justify-center mt-24 py-8 px-6 space-y-6 drop-shadow-md ">
+      <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight text-center">
         TaskPRO Admin
       </h2>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onCredentialsSubmit)}
-          className='flex flex-col flex-1 space-y-8'
+          className="flex flex-col flex-1 space-y-8"
         >
           <FormField
             control={form.control}
-            name='email'
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email Address</FormLabel>
@@ -96,12 +96,12 @@ export default function AdminLoginForm() {
           />
           <FormField
             control={form.control}
-            name='password'
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input disabled={loggingIn} type='password' {...field} />
+                  <Input disabled={loggingIn} type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

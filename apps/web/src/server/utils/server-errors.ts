@@ -32,7 +32,7 @@ export type ErrorHandlerOptions = {
 
 export const errorHandler = (
   e: any,
-  options?: ErrorHandlerOptions
+  options?: ErrorHandlerOptions,
 ): ServerErrorResponse => {
   if (e instanceof ServerError) {
     const error: CommonErrorResponse = {
