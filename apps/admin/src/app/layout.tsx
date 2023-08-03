@@ -6,6 +6,8 @@ import { redirect } from 'next/navigation';
 import { getAppServerSession } from '@/utils/get-server-session';
 import { RootProvider } from '@/providers/root-provider';
 import { RoleEnum } from 'database';
+import Navbar from '@/components/layout/navbar';
+import Sidebar from '@/components/layout/sidebar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,9 +28,17 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang='en' className='dark' suppressHydrationWarning>
       <body className={inter.className}>
-        <RootProvider session={session}>{children}</RootProvider>
+        <RootProvider session={session}>
+          <div className='min-h-screen flex flex-col'>
+            <Navbar />
+            <main className='flex container h-full py-12'>
+              <Sidebar />
+              {children}
+            </main>
+          </div>
+        </RootProvider>
       </body>
     </html>
   );
