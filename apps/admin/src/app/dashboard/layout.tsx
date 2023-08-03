@@ -5,5 +5,5 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className='px-12'>{children}</div>;
+  return <div className='px-12 flex-grow'>{children}</div>;
 }

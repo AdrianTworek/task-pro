@@ -3,7 +3,7 @@ import { KanbanSquare, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import { cn } from 'ui/src/lib/utils';
+import { cn } from '../lib/utils';
 
 function SidebarLink({
   href,
@@ -34,18 +34,22 @@ function SidebarLink({
   );
 }
 
-export default function Sidebar() {
+export default function Sidebar({
+  links,
+}: {
+  links: { href: string; label: string; icon: React.ReactNode }[];
+}) {
   return (
     <div className='max-w-[200px] w-full flex flex-col h-full sticky top-12'>
-      <SidebarLink
-        href='/dashboard/projects'
-        icon={<KanbanSquare className='w-5 h-5' />}
-      >
-        Projects
-      </SidebarLink>
-      <SidebarLink href='/dashboard/users' icon={<User className='w-5 h-5' />}>
-        Users
-      </SidebarLink>
+      {links.map((link) => (
+        <SidebarLink
+          href={link.href}
+          icon={link.icon}
+          key={`sidebar__link__` + link.href + link.label}
+        >
+          {link.label}
+        </SidebarLink>
+      ))}
     </div>
   );
 }
