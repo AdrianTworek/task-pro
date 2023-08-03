@@ -7,7 +7,8 @@ import { getAppServerSession } from '@/utils/get-server-session';
 import { RootProvider } from '@/providers/root-provider';
 import { RoleEnum } from 'database';
 import Navbar from '@/components/layout/navbar';
-import Sidebar from '@/components/layout/sidebar';
+import Sidebar from 'ui/src/components/sidebar';
+import { KanbanSquare, User } from 'lucide-react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,7 +35,20 @@ export default async function RootLayout({
           <div className='min-h-screen flex flex-col'>
             <Navbar />
             <main className='flex container h-full py-12'>
-              <Sidebar />
+              <Sidebar
+                links={[
+                  {
+                    href: '/dashboard/projects',
+                    label: 'Projects',
+                    icon: <KanbanSquare className='w-5 h-5' />,
+                  },
+                  {
+                    href: '/dashboard/users',
+                    label: 'Users',
+                    icon: <User className='w-5 h-5' />,
+                  },
+                ]}
+              />
               {children}
             </main>
           </div>
