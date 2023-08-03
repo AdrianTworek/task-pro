@@ -22,9 +22,9 @@ jobs:
         with:
           fetch-depth: 2
 
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2
         with:
-          version: 8.6.8
+          version: 8
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
@@ -38,11 +38,11 @@ jobs:
       - name: Generate PrismaClient
         run: pnpm db:generate
 
-      - name: Build
-        run: pnpm build
+      - name: Lint
+        run: pnpm lint
 
       - name: Test
         run: pnpm test
 
-      - name: Lint
-        run: pnpm lint
+      - name: Build
+        run: pnpm build
