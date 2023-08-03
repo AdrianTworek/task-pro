@@ -53,7 +53,7 @@ export type CreateProjectResult = Awaited<ReturnType<typeof createProject>>;
 
 export const createProject = async (
   userId: string,
-  project: CreateProjectBody
+  project: CreateProjectBody,
 ) => {
   try {
     const members =

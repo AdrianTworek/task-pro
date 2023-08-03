@@ -42,19 +42,19 @@ export function ProjectCard({
 
   return (
     <Link href={`/project/${id}`}>
-      <Card className='min-h-[220px] h-full hover:shadow hover:shadow-background hover:scale-[102%] transition-all ease-out hover:border-foreground'>
+      <Card className="min-h-[220px] h-full hover:shadow hover:shadow-background hover:scale-[102%] transition-all ease-out hover:border-foreground">
         <CardHeader>
           <CardTitle>{name}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
-        <CardContent className='flex group'>
+        <CardContent className="flex group">
           {usersToDisplay.map((user, idx) => (
             <div
               style={{ translate: idx * -4 + 4 }}
-              className='w-8 h-8 flex items-center justify-center object-cover rounded-full ring-[3px] ring-background overflow-hidden'
+              className="w-8 h-8 flex items-center justify-center object-cover rounded-full ring-[3px] ring-background overflow-hidden"
               key={'userImage__' + user.id}
             >
-              <Avatar className='w-full h-full'>
+              <Avatar className="w-full h-full">
                 <AvatarImage
                   src={user.image ?? undefined}
                   alt={'User avatar'}
@@ -68,15 +68,15 @@ export function ProjectCard({
           {usersLeft > 0 && (
             <div
               style={{ translate: usersToDisplay.length * -4 + 4 }}
-              className='w-8 h-8 flex items-center justify-center object-cover rounded-full ring-[3px] ring-background overflow-hidden'
+              className="w-8 h-8 flex items-center justify-center object-cover rounded-full ring-[3px] ring-background overflow-hidden"
             >
-              <Avatar className='w-full h-full text-sm'>
+              <Avatar className="w-full h-full text-sm">
                 <AvatarFallback>{usersLeft}+</AvatarFallback>
               </Avatar>
             </div>
           )}
         </CardContent>
-        <CardFooter className='text-xs text-muted-foreground'>
+        <CardFooter className="text-xs text-muted-foreground">
           {formatDate(createdAt)}
         </CardFooter>
       </Card>

@@ -8,7 +8,7 @@ export const searchUsers = async (
   query: string,
   page: number,
   userId: string,
-  limit: number = 5
+  limit: number = 5,
 ) => {
   try {
     const results = await prisma.user.findMany({

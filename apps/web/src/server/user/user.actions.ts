@@ -38,7 +38,7 @@ export const searchUserAction = async (input: {
       query,
       page,
       session.user.id,
-      SEARCH_USERS_LIMIT
+      SEARCH_USERS_LIMIT,
     );
 
     const nextPage = users.length === SEARCH_USERS_LIMIT ? page + 1 : undefined;

@@ -22,7 +22,7 @@ export default async function RootLayout({
   const session = await getAppServerSession();
 
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.className, 'min-h-screen bg-background')}>
         <RootProvider session={session}>
           <Navbar />

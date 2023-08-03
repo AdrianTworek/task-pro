@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 
 export const createProjectAction = async (
   form: FormData,
-  users: string[]
+  users: string[],
 ): Promise<ServerErrorResponse> => {
   let project;
   try {

@@ -70,30 +70,30 @@ export default function RegisterForm() {
   };
 
   return (
-    <Card className='py-8 px-6 space-y-6 drop-shadow-md'>
-      <h2 className='scroll-m-20 text-3xl font-semibold tracking-tight text-center'>
+    <Card className="py-8 px-6 space-y-6 drop-shadow-md">
+      <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight text-center">
         Sign up with
       </h2>
 
       <SocialProviders loading={isPending} />
 
-      <span className='block text-center'>or</span>
+      <span className="block text-center">or</span>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onCredentialsSubmit)}
-          className='flex flex-col flex-1 space-y-8'
+          className="flex flex-col flex-1 space-y-8"
         >
           <FormField
             control={form.control}
-            name='email'
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email Address</FormLabel>
                 <FormControl>
                   <Input
                     disabled={isPending}
-                    placeholder='example@test.com'
+                    placeholder="example@test.com"
                     {...field}
                   />
                 </FormControl>
@@ -103,12 +103,12 @@ export default function RegisterForm() {
           />
           <FormField
             control={form.control}
-            name='password'
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input disabled={isPending} type='password' {...field} />
+                  <Input disabled={isPending} type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -116,12 +116,12 @@ export default function RegisterForm() {
           />
           <FormField
             control={form.control}
-            name='confirmPassword'
+            name="confirmPassword"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input disabled={isPending} type='password' {...field} />
+                  <Input disabled={isPending} type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -131,10 +131,10 @@ export default function RegisterForm() {
         </form>
       </Form>
 
-      <div className='self-center mt-4'>
+      <div className="self-center mt-4">
         <p>
           Already registered?{' '}
-          <Link href='/login' className='underline'>
+          <Link href="/login" className="underline">
             Login
           </Link>
         </p>

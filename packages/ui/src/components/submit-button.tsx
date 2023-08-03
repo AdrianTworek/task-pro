@@ -15,15 +15,15 @@ export function SubmitButton({
 }) {
   return (
     <Button
-      type='submit'
+      type="submit"
       disabled={disabled}
-      className='relative mb-6'
+      className="relative mb-6"
       onClick={onClick}
     >
       <span
         className={cn(
           'absolute top-1/2 -translate-y-1/2 opacity-100 transition-opacity duration-200',
-          disabled && 'opacity-0'
+          disabled && 'opacity-0',
         )}
       >
         {children}
@@ -31,10 +31,10 @@ export function SubmitButton({
       <span
         className={cn(
           'absolute top-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-200 ',
-          disabled && 'opacity-100'
+          disabled && 'opacity-100',
         )}
       >
-        <Loader2 className='w-5 h-5 text-background animate-spin' />
+        <Loader2 className="w-5 h-5 text-background animate-spin" />
       </span>
     </Button>
   );

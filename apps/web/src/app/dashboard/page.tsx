@@ -12,9 +12,9 @@ export default async function DashboardPage() {
   }
 
   return (
-    <main className='container py-12 flex flex-col'>
-      <h1 className='text-4xl font-semibold mb-6'>Projects</h1>
-      <div className='grid grid-cols-3 gap-8 xl:grid-cols-4'>
+    <main className="container py-12 flex flex-col">
+      <h1 className="text-4xl font-semibold mb-6">Projects</h1>
+      <div className="grid grid-cols-3 gap-8 xl:grid-cols-4">
         <AddProjectCard />
         {response.projects.map((project) => (
           <ProjectCard

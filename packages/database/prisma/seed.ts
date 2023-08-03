@@ -82,7 +82,7 @@ const createProjects = async (mainUser: User, users: User[]) => {
       await prisma.project.create({
         data: project,
       });
-    })
+    }),
   );
 };
 

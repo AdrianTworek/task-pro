@@ -16,7 +16,7 @@ import { ZodError } from 'zod';
 export const ApiHandler = async <T extends Record<string, unknown> | undefined>(
   handler: (req: NextRequest, params: T) => Promise<NextResponse>,
   req: NextRequest,
-  params?: T
+  params?: T,
 ) => {
   try {
     return await handler(req, params!);
