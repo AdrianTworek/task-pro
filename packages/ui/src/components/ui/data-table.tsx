@@ -1,7 +1,8 @@
 'use client';
 
 import {
-  ColumnDef,
+  type ColumnDef,
+  type Table as TableType,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -17,19 +18,13 @@ import {
 } from './table';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  table: TableType<TData>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
+  table,
 }: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
   return (
     <div className='rounded-md border'>
       <Table className='w-full'>
