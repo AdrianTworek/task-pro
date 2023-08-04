@@ -40,7 +40,7 @@ export default function Sidebar({
   links: { href: string; label: string; icon: React.ReactNode }[];
 }) {
   return (
-    <div className='max-w-[200px] w-full flex flex-col h-full sticky top-12'>
+    <div className='w-[200px] min-w-[200px] flex flex-col h-full sticky top-12'>
       {links.map((link) => (
         <SidebarLink
           href={link.href}
