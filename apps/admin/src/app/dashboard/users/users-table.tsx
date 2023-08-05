@@ -125,27 +125,33 @@ export default function UsersTable({ data }: { data: getUsersResult }) {
         placeholder='Search by email'
       />
       <DataTable columns={columns} table={table} />
-      <div className='flex self-end gap-4'>
-        <Button
-          variant='outline'
-          onClick={() => {
-            window.scrollTo({ behavior: 'smooth', top: 0 });
-            table.previousPage();
-          }}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant='outline'
-          onClick={() => {
-            window.scrollTo({ behavior: 'smooth', top: 0 });
-            table.nextPage();
-          }}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className='flex w-full gap-4 justify-between'>
+        <span className='text-sm text-muted-foreground'>
+          Page {table.getState().pagination.pageIndex + 1} of{' '}
+          {table.getPageCount()}
+        </span>
+        <div className='flex gap-4'>
+          <Button
+            variant='outline'
+            onClick={() => {
+              window.scrollTo({ behavior: 'smooth', top: 0 });
+              table.previousPage();
+            }}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant='outline'
+            onClick={() => {
+              window.scrollTo({ behavior: 'smooth', top: 0 });
+              table.nextPage();
+            }}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );
