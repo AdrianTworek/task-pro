@@ -46,7 +46,7 @@ export const createProjectAction = async (
   }
 
   if (project) {
-    revalidatePath(`/dashboard`);
-    redirect(`/project/${project.id}`);
+    revalidatePath(`/dashboard/projects`);
+    redirect(`/dashboard/projects/${project.id}`);
   }
 };

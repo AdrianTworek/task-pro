@@ -5,6 +5,34 @@ import { MemberEnum, prisma } from 'database';
 
 export type GetProjectsResult = Awaited<ReturnType<typeof getProjects>>;
 
+export const getProject = async (userId: string, projectId: string) => {
+  return await prisma.project.findUnique({
+    where: { id: projectId, members: { some: { userId } } },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      createdAt: true,
+      members: {
+        select: {
+          role: true,
+          user: {
+            select: {
+              id: true,
+              image: true,
+              name: true,
+              email: true,
+              role: true,
+            },
+          },
+        },
+      },
+    },
+  });
+};
+
+export type GetProjectResult = Awaited<ReturnType<typeof getProject>>;
+
 export const getProjects = async (userId: string) => {
   try {
     const projects = await prisma.project.findMany({
