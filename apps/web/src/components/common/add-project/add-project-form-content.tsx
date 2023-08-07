@@ -20,6 +20,7 @@ import {
   SubmitButton,
 } from 'ui';
 import { cn } from 'ui/src/lib/utils';
+import FormErrors from '../form-errors';
 
 export function AddProjectFormContent({
   error,
@@ -116,18 +117,12 @@ export function AddProjectFormContent({
 
   return (
     <>
-      {!!error && !pending && (
-        <div className="bg-destructive p-4 mb-4 rounded-md flex flex-col gap-2 text-sm text-destructive-foreground">
-          <p>{error}</p>
-        </div>
-      )}
-      {!!validationErrors.length && !pending && (
-        <div className="bg-destructive p-4 mb-4 rounded-md flex flex-col gap-2 text-sm text-destructive-foreground">
-          {validationErrors.map((error, idx) => (
-            <p key={'error__' + idx + '__' + error}>{error}</p>
-          ))}
-        </div>
-      )}
+      <FormErrors
+        pending={pending}
+        error={error}
+        validationErrors={validationErrors}
+      />
+
       <div className="grid w-full items-center mb-6 gap-1.5">
         <Label htmlFor="name">Name</Label>
         <Input
