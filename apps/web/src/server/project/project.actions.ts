@@ -1,9 +1,14 @@
 'use server';
 
-import { createProjectSchema } from '@/server/project/project.schema';
+import {
+  createProjectSchema,
+  updateProjectSchema,
+} from '@/server/project/project.schema';
 import {
   CreateProjectResult,
+  UpdateProjectResult,
   createProject,
+  updateProject,
 } from '@/server/project/project.services';
 import { CommonErrorResponse } from '@/server/types/errors';
 import { errorHandler } from '@/server/utils/server-errors';
@@ -48,5 +53,43 @@ export const createProjectAction = async (
   if (project) {
     revalidatePath(`/dashboard/projects`);
     redirect(`/dashboard/projects/${project.id}`);
+  }
+};
+
+export const updateProjectAction = async (
+  formData: FormData,
+  projectId: string,
+) => {
+  const session = await getAppServerSession();
+
+  if (!session) {
+    const error: CommonErrorResponse = {
+      error: {
+        message: 'You must be logged in to update a project',
+        code: StatusCodes.UNAUTHORIZED,
+      },
+    };
+
+    return error;
+  }
+
+  let project: UpdateProjectResult;
+
+  try {
+    const requestData = {
+      id: projectId,
+      name: formData.get('name'),
+      description: formData.get('description'),
+    };
+
+    const body = updateProjectSchema.parse(requestData);
+
+    project = await updateProject(session.user.id, body);
+  } catch (e) {
+    return errorHandler(e);
+  }
+
+  if (project) {
+    revalidatePath(`/dashboard/projects`);
   }
 };

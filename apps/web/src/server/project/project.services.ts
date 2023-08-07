@@ -1,5 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
-import { CreateProjectBody } from '@/server/project/project.schema';
+import {
+  CreateProjectBody,
+  UpdateProjectBody,
+} from '@/server/project/project.schema';
 import { ServerError } from '@/server/utils/server-errors';
 import { MemberEnum, prisma } from 'database';
 
@@ -107,4 +110,46 @@ export const createProject = async (
       cause: e,
     });
   }
+};
+
+export type UpdateProjectResult = Awaited<ReturnType<typeof updateProject>>;
+
+export const updateProject = async (
+  userId: string,
+  project: UpdateProjectBody,
+) => {
+  const foundProject = await prisma.project.findUnique({
+    where: { id: project.id },
+    select: {
+      members: true,
+    },
+  });
+
+  if (!foundProject) {
+    throw new ServerError({
+      message: 'Project not found',
+      code: StatusCodes.NOT_FOUND,
+    });
+  }
+
+  const isProjectOwner = foundProject.members.find(
+    (member) => member.userId === userId && member.role === 'OWNER',
+  );
+
+  if (!isProjectOwner) {
+    throw new ServerError({
+      message: 'You cannot perform this action',
+      code: StatusCodes.FORBIDDEN,
+    });
+  }
+
+  const result = await prisma.project.update({
+    where: { id: project.id },
+    data: {
+      name: project.name,
+      description: project.description,
+    },
+  });
+
+  return result;
 };
