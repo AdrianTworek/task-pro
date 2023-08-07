@@ -1,5 +1,3 @@
-import { Metadata } from 'next';
-
 import { fetchProject } from '@/server/project/projects.fetchers';
 import { isCommonErrorResponse } from '@/server/types/errors';
 
@@ -15,19 +13,20 @@ interface Props {
   };
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const response = await fetchProject(params.projectId);
+export async function generateMetadata({ params }: Props) {
+  try {
+    const response = await fetchProject(params.projectId);
 
-  if (isCommonErrorResponse(response)) {
-    console.error(response.error);
+    if (!isCommonErrorResponse(response)) {
+      return {
+        title: `TaskPRO | ${response && response.name}`,
+      };
+    }
+  } catch (error) {
     return {
       title: 'TaskPRO | Project not found',
     };
   }
-
-  return {
-    title: `TaskPRO | ${response.name}`,
-  };
 }
 
 export default async function ProjectPage({ params }: Props) {
