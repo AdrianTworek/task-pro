@@ -132,6 +132,7 @@ export function AddProjectFormContent({
         <Label htmlFor="name">Name</Label>
         <Input
           disabled={pending}
+          id="name"
           name="name"
           placeholder="Name for this project"
         />
@@ -140,6 +141,7 @@ export function AddProjectFormContent({
         <Label htmlFor="description">Description</Label>
         <Textarea
           disabled={pending}
+          id="description"
           name="description"
           placeholder="Describe this project"
         />
@@ -148,6 +150,7 @@ export function AddProjectFormContent({
         <Label htmlFor="users">Users</Label>
         <Input
           type="search"
+          id="users"
           name="users"
           placeholder="Search users by email"
           onChange={handleUserSearch}
