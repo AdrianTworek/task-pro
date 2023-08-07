@@ -23,7 +23,7 @@ export default function Navbar() {
   const router = useRouter();
 
   return (
-    <nav className="w-full border-b">
+    <nav className="w-full bg-background border-b sticky top-0 z-[50]">
       <div className="flex items-center justify-between py-4 px-6 container">
         <h1>
           <Link
@@ -62,7 +62,9 @@ export default function Navbar() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => router.push('/dashboard')}>
+                <DropdownMenuItem
+                  onClick={() => router.push('/dashboard/projects')}
+                >
                   <LayoutDashboard className="mr-2 h-4 w-4" />
                   <span>Dashboard</span>
                 </DropdownMenuItem>

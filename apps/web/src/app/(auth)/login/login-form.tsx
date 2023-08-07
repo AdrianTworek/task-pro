@@ -66,7 +66,7 @@ export default function LoginForm() {
     }
 
     setLoggingIn(false);
-    router.push('/dashboard');
+    router.push('/dashboard/projects');
   };
 
   return (
