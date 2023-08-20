@@ -1,5 +1,5 @@
+import { formatDate } from '@/utils/format-date';
 import { User } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
@@ -14,14 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from 'ui';
-
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString('en-US', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-};
 
 export function ProjectCard({
   id,
@@ -41,7 +33,7 @@ export function ProjectCard({
   const usersLeft = users.length - usersToDisplay.length;
 
   return (
-    <Link href={`/project/${id}`}>
+    <Link href={`/dashboard/projects/${id}`}>
       <Card className="min-h-[220px] h-full hover:shadow hover:shadow-background hover:scale-[102%] transition-all ease-out hover:border-foreground">
         <CardHeader>
           <CardTitle>{name}</CardTitle>

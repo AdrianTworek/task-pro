@@ -65,7 +65,7 @@ export default function RegisterForm() {
         title: 'Successfully registered!',
         description: 'Welcome to Task-Pro!',
       });
-      router.push('/dashboard');
+      router.push('/dashboard/projects');
     });
   };
 

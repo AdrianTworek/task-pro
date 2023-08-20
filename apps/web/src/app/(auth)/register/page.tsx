@@ -7,7 +7,7 @@ export default async function RegisterPage() {
   const session = await getAppServerSession();
 
   if (session) {
-    redirect('/dashboard');
+    redirect('/dashboard/projects');
   }
 
   return <RegisterForm />;
