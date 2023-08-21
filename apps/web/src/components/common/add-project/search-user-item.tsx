@@ -18,9 +18,9 @@ export default function SearchUserItem({
   disabled?: boolean;
 }) {
   return (
-    <div className='border-b last:border-none p-2 py-3 text-sm flex justify-between items-center gap-2'>
-      <div className='flex gap-2 items-center'>
-        <Avatar className='w-8 h-8'>
+    <div className="border-b last:border-none p-2 py-3 text-sm flex justify-between items-center gap-2">
+      <div className="flex gap-2 items-center">
+        <Avatar className="w-8 h-8">
           <AvatarImage
             src={user.image ?? undefined}
             alt={'avatar of user with email ' + user.email}
@@ -34,21 +34,21 @@ export default function SearchUserItem({
       {!isSelected && (
         <button
           disabled={disabled}
-          type='button'
-          className='p-2 hover:opacity-75 transition-opacity'
+          type="button"
+          className="p-2 hover:opacity-75 transition-opacity"
           onClick={() => selectUser(user)}
         >
-          <PlusIcon className='w-5 h-5' />
+          <PlusIcon className="w-5 h-5" />
         </button>
       )}
       {isSelected && (
         <button
           disabled={disabled}
-          type='button'
-          className='p-2 hover:opacity-75 transition-opacity'
+          type="button"
+          className="p-2 hover:opacity-75 transition-opacity"
           onClick={() => removeSelection(user)}
         >
-          <Trash2 className='w-5 h-5 text-destructive' />
+          <Trash2 className="w-5 h-5 text-destructive" />
         </button>
       )}
     </div>

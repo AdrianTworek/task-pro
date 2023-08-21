@@ -49,7 +49,7 @@ export const OPTIONS: NextAuthOptions = {
 
         const isPasswordValid = await bcrypt.compare(
           password,
-          user.password ?? ''
+          user.password ?? '',
         );
 
         if (!isPasswordValid) return null;

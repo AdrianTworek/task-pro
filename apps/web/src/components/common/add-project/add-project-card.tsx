@@ -30,12 +30,12 @@ export function AddProjectCard() {
 
     const errorResponse = await createProjectAction(
       formData,
-      selectedUsers.map((user) => user.id)
+      selectedUsers.map((user) => user.id),
     );
 
     if (isValidationErrorResponse(errorResponse)) {
       setValidationErrors(
-        errorResponse.error.issues.map((issue) => issue.message)
+        errorResponse.error.issues.map((issue) => issue.message),
       );
       return;
     }
@@ -55,11 +55,11 @@ export function AddProjectCard() {
       }}
     >
       <DialogTrigger asChild>
-        <Card className='flex flex-col items-center justify-center text-center cursor-pointer min-h-[220px] h-full hover:shadow hover:shadow-background hover:scale-[102%] transition-all ease-out hover:border-foreground'>
-          <CardContent className='flex flex-col items-center'>
-            <PlusIcon className='w-10 h-10' />
+        <Card className="flex flex-col items-center justify-center text-center cursor-pointer min-h-[220px] h-full hover:shadow hover:shadow-background hover:scale-[102%] transition-all ease-out hover:border-foreground">
+          <CardContent className="flex flex-col items-center">
+            <PlusIcon className="w-10 h-10" />
             <h4>Add a new project</h4>
-            <p className='text-sm text-muted-foreground'>
+            <p className="text-sm text-muted-foreground">
               Create a new project and invite your team members
             </p>
           </CardContent>
@@ -68,10 +68,10 @@ export function AddProjectCard() {
 
       {dialogOpen && (
         <DialogContent showCloseButton={false}>
-          <DialogHeader className='mb-4'>
+          <DialogHeader className="mb-4">
             <DialogTitle>Add a new project</DialogTitle>
           </DialogHeader>
-          <form className='flex flex-col w-full' action={handleSubmit}>
+          <form className="flex flex-col w-full" action={handleSubmit}>
             <AddProjectFormContent
               error={error}
               validationErrors={validationErrors}

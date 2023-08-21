@@ -66,34 +66,34 @@ export default function LoginForm() {
     }
 
     setLoggingIn(false);
-    router.push('/dashboard');
+    router.push('/dashboard/projects');
   };
 
   return (
-    <Card className='py-8 px-6 space-y-6 drop-shadow-md'>
-      <h2 className='scroll-m-20 text-3xl font-semibold tracking-tight text-center'>
+    <Card className="py-8 px-6 space-y-6 drop-shadow-md">
+      <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight text-center">
         Sign in with
       </h2>
 
       <SocialProviders loading={loggingIn} />
 
-      <span className='block text-center'>or</span>
+      <span className="block text-center">or</span>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onCredentialsSubmit)}
-          className='flex flex-col flex-1 space-y-8'
+          className="flex flex-col flex-1 space-y-8"
         >
           <FormField
             control={form.control}
-            name='email'
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email Address</FormLabel>
                 <FormControl>
                   <Input
                     disabled={loggingIn}
-                    placeholder='example@test.com'
+                    placeholder="example@test.com"
                     {...field}
                   />
                 </FormControl>
@@ -103,12 +103,12 @@ export default function LoginForm() {
           />
           <FormField
             control={form.control}
-            name='password'
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input disabled={loggingIn} type='password' {...field} />
+                  <Input disabled={loggingIn} type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -118,10 +118,10 @@ export default function LoginForm() {
         </form>
       </Form>
 
-      <div className='self-center mt-4'>
+      <div className="self-center mt-4">
         <p>
           Not signed up?{' '}
-          <Link href='/register' className='underline'>
+          <Link href="/register" className="underline">
             Register
           </Link>
         </p>

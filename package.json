@@ -3,19 +3,23 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "db:generate": "turbo run db:generate",
     "db:push": "turbo run db:push",
     "db:studio": "turbo run db:studio",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
     "@types/bcryptjs": "^2.4.2",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
+    "husky": "^8.0.3",
     "prettier": "^2.5.1",
-    "turbo": "latest"
+    "turbo": "latest",
+    "vitest": "^0.34.1"
   },
   "packageManager": "pnpm@8.6.7",
   "name": "task-pro",

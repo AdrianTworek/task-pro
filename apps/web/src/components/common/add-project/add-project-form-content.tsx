@@ -20,6 +20,7 @@ import {
   SubmitButton,
 } from 'ui';
 import { cn } from 'ui/src/lib/utils';
+import FormErrors from '../form-errors';
 
 export function AddProjectFormContent({
   error,
@@ -40,7 +41,7 @@ export function AddProjectFormContent({
   const [searchResults, setSearchResults] = useState<SearchUsersResult>([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [searchNextPage, setSearchNextPage] = useState<number | undefined>(
-    undefined
+    undefined,
   );
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -116,48 +117,45 @@ export function AddProjectFormContent({
 
   return (
     <>
-      {!!error && !pending && (
-        <div className='bg-destructive p-4 mb-4 rounded-md flex flex-col gap-2 text-sm text-destructive-foreground'>
-          <p>{error}</p>
-        </div>
-      )}
-      {!!validationErrors.length && !pending && (
-        <div className='bg-destructive p-4 mb-4 rounded-md flex flex-col gap-2 text-sm text-destructive-foreground'>
-          {validationErrors.map((error, idx) => (
-            <p key={'error__' + idx + '__' + error}>{error}</p>
-          ))}
-        </div>
-      )}
-      <div className='grid w-full items-center mb-6 gap-1.5'>
-        <Label htmlFor='name'>Name</Label>
+      <FormErrors
+        pending={pending}
+        error={error}
+        validationErrors={validationErrors}
+      />
+
+      <div className="grid w-full items-center mb-6 gap-1.5">
+        <Label htmlFor="name">Name</Label>
         <Input
           disabled={pending}
-          name='name'
-          placeholder='Name for this project'
+          id="name"
+          name="name"
+          placeholder="Name for this project"
         />
       </div>
-      <div className='grid w-full items-center mb-6 gap-1.5'>
-        <Label htmlFor='description'>Description</Label>
+      <div className="grid w-full items-center mb-6 gap-1.5">
+        <Label htmlFor="description">Description</Label>
         <Textarea
           disabled={pending}
-          name='description'
-          placeholder='Describe this project'
+          id="description"
+          name="description"
+          placeholder="Describe this project"
         />
       </div>
-      <div className='grid w-full items-center mb-4 gap-1.5'>
-        <Label htmlFor='users'>Users</Label>
+      <div className="grid w-full items-center mb-4 gap-1.5">
+        <Label htmlFor="users">Users</Label>
         <Input
-          type='search'
-          name='users'
-          placeholder='Search users by email'
+          type="search"
+          id="users"
+          name="users"
+          placeholder="Search users by email"
           onChange={handleUserSearch}
           ref={inputRef}
         />
       </div>
 
       {showLoader && (
-        <div className='h-40 flex flex-col items-center justify-center mb-6 border rounded-sm'>
-          <Loader2 className='w-8 h-8 animate-spin mb-2' />
+        <div className="h-40 flex flex-col items-center justify-center mb-6 border rounded-sm">
+          <Loader2 className="w-8 h-8 animate-spin mb-2" />
           <h5>Looking for users</h5>
         </div>
       )}
@@ -166,12 +164,12 @@ export function AddProjectFormContent({
         <div
           className={cn(
             ' h-40 flex items-center justify-center flex-col border rounded-sm mb-6 transition-all',
-            pending && 'opacity-50 cursor-not-allowed'
+            pending && 'opacity-50 cursor-not-allowed',
           )}
         >
-          <X className='w-8 h-8 mb-2' />
+          <X className="w-8 h-8 mb-2" />
           <h5>Not found</h5>
-          <span className='text-sm text-gray-500'>
+          <span className="text-sm text-gray-500">
             There is no user that matches your search
           </span>
         </div>
@@ -181,12 +179,12 @@ export function AddProjectFormContent({
         <div
           className={cn(
             ' h-40 flex items-center justify-center flex-col border rounded-sm mb-6 transition-all',
-            pending && 'opacity-50 cursor-not-allowed'
+            pending && 'opacity-50 cursor-not-allowed',
           )}
         >
-          <User className='w-8 h-8 mb-2' />
+          <User className="w-8 h-8 mb-2" />
           <h5>Add members</h5>
-          <span className='text-sm text-gray-500'>
+          <span className="text-sm text-gray-500">
             Search for users by email and add them to this project
           </span>
         </div>
@@ -196,7 +194,7 @@ export function AddProjectFormContent({
         <ScrollArea
           className={cn(
             'h-40 border rounded mb-6 transition-all',
-            (pending || loadingUsers) && 'opacity-50 cursor-not-allowed'
+            (pending || loadingUsers) && 'opacity-50 cursor-not-allowed',
           )}
         >
           {showSelectedUsers && (
@@ -211,7 +209,7 @@ export function AddProjectFormContent({
                   }
                   removeSelection={(user) =>
                     setSelectedUsers((prev) =>
-                      prev.filter((u) => u.id !== user.id)
+                      prev.filter((u) => u.id !== user.id),
                     )
                   }
                 />
@@ -231,7 +229,7 @@ export function AddProjectFormContent({
                   }
                   removeSelection={(user) =>
                     setSelectedUsers((prev) =>
-                      prev.filter((u) => u.id !== user.id)
+                      prev.filter((u) => u.id !== user.id),
                     )
                   }
                 />
@@ -239,16 +237,16 @@ export function AddProjectFormContent({
               {searchNextPage && (
                 <Button
                   disabled={loadingUsers}
-                  type='button'
-                  variant='link'
-                  className='text-center w-full'
+                  type="button"
+                  variant="link"
+                  className="text-center w-full"
                   onClick={loadMoreUsers}
                 >
                   Load more
                 </Button>
               )}
               {!searchNextPage && (
-                <p className='w-full px-4 py-2 my-0.5 text-center text-sm'>
+                <p className="w-full px-4 py-2 my-0.5 text-center text-sm">
                   No more users to load
                 </p>
               )}
@@ -260,8 +258,8 @@ export function AddProjectFormContent({
       <Button
         disabled={pending}
         onClick={closeDialog}
-        type='button'
-        variant='secondary'
+        type="button"
+        variant="secondary"
       >
         Cancel
       </Button>
