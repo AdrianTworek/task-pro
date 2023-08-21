@@ -72,6 +72,10 @@ const columns: ColumnDef<getUsersResult[number]>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
+    cell: ({ row }) => {
+      const name = row.getValue('name') || 'N/A';
+      return name;
+    },
   },
 ];
 
