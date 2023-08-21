@@ -1,4 +1,4 @@
-import { prisma } from 'database';
+import { RoleEnum, prisma } from 'database';
 import { ServerError } from 'server-utils';
 
 export type getUsersResult = Awaited<ReturnType<typeof getUsers>>;
@@ -9,6 +9,9 @@ export const getUsers = async (params?: { query?: string }) => {
       where: {
         email: {
           contains: params?.query,
+        },
+        role: {
+          not: RoleEnum.ADMIN,
         },
       },
       select: {
@@ -22,6 +25,9 @@ export const getUsers = async (params?: { query?: string }) => {
 
     return users;
   } catch (e: any) {
-    throw new ServerError({ message: "Could't get users", code: 500 });
+    throw new ServerError({
+      message: 'Failed getting users from database',
+      code: 500,
+    });
   }
 };
