@@ -98,7 +98,7 @@ export default function ProjectsTable({ data }: { data: GetProjectsResult }) {
       searchEmailTimeout.current = null;
     }
     searchEmailTimeout.current = setTimeout(() => {
-      table.getColumn('email')?.setFilterValue(e.target.value);
+      table.getColumn('name')?.setFilterValue(e.target.value);
     }, 1000);
   };
 
