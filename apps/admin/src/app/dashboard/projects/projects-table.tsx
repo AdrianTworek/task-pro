@@ -58,7 +58,7 @@ const columns: ColumnDef<GetProjectsResult[number]>[] = [
           year: 'numeric',
         }
       );
-      return formattedDate;
+      return <span className='w-max whitespace-nowrap'>{formattedDate}</span>;
     },
   },
 ];
