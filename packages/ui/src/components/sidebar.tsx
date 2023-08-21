@@ -1,5 +1,4 @@
 'use client';
-import { KanbanSquare, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
@@ -22,8 +21,8 @@ function SidebarLink({
     <Link
       href={href}
       className={cn(
-        'p-2 flex justify-between rounded-md',
-        isActive && 'bg-muted'
+        'p-2 flex justify-between rounded-md transition-all hover:bg-muted/40',
+        isActive && 'bg-muted hover:bg-muted'
       )}
     >
       <div className='flex gap-2 items-center'>
