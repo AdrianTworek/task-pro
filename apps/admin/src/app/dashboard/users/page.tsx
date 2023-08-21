@@ -19,7 +19,6 @@ export default async function UsersPage() {
   return (
     <>
       <h1 className='text-4xl font-semibold mb-6'>Users</h1>
-
       <UsersTable data={data.users} />
     </>
   );
