@@ -19,16 +19,16 @@
     "husky": "^8.0.3",
     "prettier": "^2.5.1",
     "turbo": "latest",
-    "vitest": "^0.34.1"
+    "vitest": "^0.34.1",
+    "@types/node": "20.4.2",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7"
   },
   "packageManager": "pnpm@8.6.7",
   "name": "task-pro",
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
     "@next-auth/prisma-adapter": "^1.0.7",
-    "@types/node": "20.4.2",
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.14",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.6.1",
