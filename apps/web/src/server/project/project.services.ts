@@ -5,36 +5,47 @@ import {
 } from '@/server/project/project.schema';
 import { ServerError } from '@/server/utils/server-errors';
 import { MemberEnum, prisma } from 'database';
+import { ServerErrorResponse } from '@/server/types/errors';
 
-export type GetProjectsResult = Awaited<ReturnType<typeof getProjects>>;
+export type GetProjectResult = Awaited<ReturnType<typeof getProject>>;
 
 export const getProject = async (userId: string, projectId: string) => {
-  return await prisma.project.findUnique({
-    where: { id: projectId, members: { some: { userId } } },
-    select: {
-      id: true,
-      name: true,
-      description: true,
-      createdAt: true,
-      members: {
-        select: {
-          role: true,
-          user: {
-            select: {
-              id: true,
-              image: true,
-              name: true,
-              email: true,
-              role: true,
+  try {
+    return await prisma.project.findUnique({
+      where: { id: projectId, members: { some: { userId } } },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        createdAt: true,
+        members: {
+          select: {
+            role: true,
+            user: {
+              select: {
+                id: true,
+                image: true,
+                name: true,
+                email: true,
+                role: true,
+              },
             },
           },
         },
       },
-    },
-  });
+    });
+  } catch (e) {
+    const error: ServerErrorResponse = {
+      error: {
+        message: 'Failed to get project with id: ' + projectId,
+        code: StatusCodes.INTERNAL_SERVER_ERROR,
+      },
+    };
+    return error;
+  }
 };
 
-export type GetProjectResult = Awaited<ReturnType<typeof getProject>>;
+export type GetProjectsResult = Awaited<ReturnType<typeof getProjects>>;
 
 export const getProjects = async (userId: string) => {
   try {
@@ -72,11 +83,14 @@ export const getProjects = async (userId: string) => {
       members: project.members.map((member) => member.user),
     }));
   } catch (e: any) {
-    throw new ServerError({
-      message: 'Failed to get projects',
-      code: StatusCodes.INTERNAL_SERVER_ERROR,
-      cause: e,
-    });
+    const error: ServerErrorResponse = {
+      error: {
+        message: 'Failed to get projects',
+        code: StatusCodes.INTERNAL_SERVER_ERROR,
+      },
+    };
+
+    return error;
   }
 };
 
@@ -133,12 +147,14 @@ export const updateProject = async (
   }
 
   const isProjectOwner = foundProject.members.find(
-    (member) => member.userId === userId && member.role === 'OWNER',
+    (member) =>
+      member.userId === userId &&
+      (member.role === 'OWNER' || member.role === 'ADMIN'),
   );
 
   if (!isProjectOwner) {
     throw new ServerError({
-      message: 'You cannot perform this action',
+      message: 'You are not authorized to perform this action',
       code: StatusCodes.FORBIDDEN,
     });
   }

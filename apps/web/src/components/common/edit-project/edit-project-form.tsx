@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 
-import { updateProjectAction } from '@/server/project/project.actions';
+import { updateProjectInformationAction } from '@/server/project/project.actions';
 import { GetProjectResult } from '@/server/project/project.services';
 import {
+  CommonErrorResponse,
   isCommonErrorResponse,
   isValidationErrorResponse,
 } from '@/server/types/errors';
@@ -15,7 +16,7 @@ import { useToast } from 'ui';
 export default function EditProjectForm({
   project,
 }: {
-  project: GetProjectResult;
+  project: Exclude<GetProjectResult, CommonErrorResponse>;
 }) {
   const [error, setError] = useState<string | null>(null);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
@@ -28,7 +29,10 @@ export default function EditProjectForm({
     setError(null);
     setValidationErrors([]);
 
-    const errorResponse = await updateProjectAction(formData, project?.id);
+    const errorResponse = await updateProjectInformationAction(
+      formData,
+      project?.id,
+    );
 
     if (errorResponse) {
       if (isValidationErrorResponse(errorResponse)) {

@@ -1,15 +1,17 @@
+'use client';
 import { GetProjectResult } from '@/server/project/project.services';
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 
 import { Label, Input, Textarea, SubmitButton } from 'ui';
 import FormErrors from '../form-errors';
+import { CommonErrorResponse } from '@/server/types/errors';
+import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 
 export default function EditProjectFormContent({
   project,
   error,
   validationErrors,
 }: {
-  project: GetProjectResult;
+  project: Exclude<GetProjectResult, CommonErrorResponse>;
   error: string | null;
   validationErrors: string[];
 }) {

@@ -17,7 +17,7 @@ export default async function DashboardPage() {
 
   if (isCommonErrorResponse(response)) {
     console.error(response.error);
-    return <div>Something went wrong</div>;
+    throw new Error(response.error.message);
   }
 
   return (
@@ -26,7 +26,7 @@ export default async function DashboardPage() {
       <Separator />
       <div className="mt-12 grid grid-cols-3 gap-8 xl:grid-cols-4">
         <AddProjectCard />
-        {response.projects.map((project) => (
+        {response.map((project) => (
           <ProjectCard
             createdAt={new Date(project.createdAt)}
             description={project.description}

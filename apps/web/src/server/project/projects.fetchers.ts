@@ -20,9 +20,7 @@ export const fetchProjects = async () => {
   try {
     const projects = await getProjects(session.user.id);
 
-    return {
-      projects,
-    };
+    return projects;
   } catch (e) {
     return errorHandler(e);
   }
@@ -45,10 +43,12 @@ export const fetchProject = async (projectId: string) => {
   const project = await getProject(session.user.id, projectId);
 
   if (!project) {
-    throw new ServerError({
-      message: 'You cannot access this resource',
-      code: StatusCodes.FORBIDDEN,
-    });
+    return {
+      error: {
+        message: 'You cannot access this resource',
+        code: StatusCodes.FORBIDDEN,
+      },
+    };
   }
 
   return project;
