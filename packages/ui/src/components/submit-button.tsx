@@ -8,16 +8,18 @@ export function SubmitButton({
   children,
   disabled,
   onClick,
+  className,
 }: {
   children: React.ReactNode;
   disabled: boolean;
   onClick?: () => void;
+  className?: string;
 }) {
   return (
     <Button
       type="submit"
       disabled={disabled}
-      className="relative mb-6"
+      className={cn('relative mb-6', className)}
       onClick={onClick}
     >
       <span
