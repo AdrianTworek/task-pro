@@ -46,8 +46,9 @@ export const errorHandler = (
   }
 
   if (e instanceof ZodError) {
+    console.dir(e, { depth: 10 });
     const issues = e.errors.map((err) => ({
-      field: err.message,
+      field: err.path.join('.'),
       message: err.message,
     }));
 

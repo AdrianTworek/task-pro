@@ -20,14 +20,20 @@ export type ValidationErrorResponse = {
 
 export type ServerErrorResponse = CommonErrorResponse | ValidationErrorResponse;
 
+export function isServerErrorResponse(
+  error: any,
+): error is ServerErrorResponse {
+  return error?.error && error?.error?.code && error?.error?.message;
+}
+
 export function isValidationErrorResponse(
   error: any,
 ): error is ValidationErrorResponse {
-  return error.error && error.error.issues;
+  return error?.error && error?.error.issues;
 }
 
 export function isCommonErrorResponse(
   error: any,
 ): error is CommonErrorResponse {
-  return error.error && !error.error.issues;
+  return error?.error && !error?.error?.issues;
 }

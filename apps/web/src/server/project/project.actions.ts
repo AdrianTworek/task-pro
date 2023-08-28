@@ -2,7 +2,7 @@
 
 import {
   createProjectSchema,
-  updateProjectSchema,
+  updateProjectInformationSchema,
 } from '@/server/project/project.schema';
 import {
   CreateProjectResult,
@@ -56,7 +56,7 @@ export const createProjectAction = async (
   }
 };
 
-export const updateProjectAction = async (
+export const updateProjectInformationAction = async (
   formData: FormData,
   projectId: string,
 ) => {
@@ -82,7 +82,7 @@ export const updateProjectAction = async (
       description: formData.get('description'),
     };
 
-    const body = updateProjectSchema.parse(requestData);
+    const body = updateProjectInformationSchema.parse(requestData);
 
     project = await updateProject(session.user.id, body);
   } catch (e) {

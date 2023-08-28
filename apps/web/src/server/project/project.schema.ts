@@ -8,7 +8,7 @@ export const createProjectSchema = z.object({
   members: z.array(z.string()).optional(),
 });
 
-export const updateProjectSchema = z.object({
+export const updateProjectInformationSchema = z.object({
   id: z.string(),
   name: z.string().min(4, 'Name must have at least 4 characters'),
   description: z
@@ -17,4 +17,4 @@ export const updateProjectSchema = z.object({
 });
 
 export type CreateProjectBody = z.infer<typeof createProjectSchema>;
-export type UpdateProjectBody = z.infer<typeof updateProjectSchema>;
+export type UpdateProjectBody = z.infer<typeof updateProjectInformationSchema>;
