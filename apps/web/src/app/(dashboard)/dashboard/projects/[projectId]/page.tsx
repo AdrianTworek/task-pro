@@ -41,14 +41,7 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-semibold">{response.name}</h1>
-        <Link href={`/dashboard/projects/${params.projectId}/settings`}>
-          <Button className="px-2" variant="ghost">
-            <Settings className="" />
-          </Button>
-        </Link>
-      </div>
+      <h1 className="text-4xl font-semibold mb-8">{response.name}</h1>
       <Separator />
       <div className="mt-12 grid xl:grid-cols-3 gap-4">
         <div className="xl:col-span-2">
