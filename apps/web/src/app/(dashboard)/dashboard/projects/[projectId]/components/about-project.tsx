@@ -37,7 +37,7 @@ export default async function AboutProject({
         {session?.user.id === projectOwner?.user.id && (
           <Sheet>
             <SheetTrigger>
-              <Button variant="ghost">
+              <Button variant="ghost" className="p-3 h-min">
                 <Pencil className="w-4 h-4" />
               </Button>
             </SheetTrigger>
