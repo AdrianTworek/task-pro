@@ -15,11 +15,12 @@ import {
 } from 'ui';
 import EditProjectForm from '@/components/common/edit-project/edit-project-form';
 import { getAppServerSession } from '@/utils/get-server-session';
+import { CommonErrorResponse } from '@/server/types/errors';
 
 export default async function AboutProject({
   project,
 }: {
-  project: GetProjectResult;
+  project: Exclude<GetProjectResult, CommonErrorResponse>;
 }) {
   const session = await getAppServerSession();
 
